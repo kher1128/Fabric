@@ -16,6 +16,7 @@ OJT - SmartM2M
 
 > docker-compose up -d
 
+#채널, 체인코드 설치
 ___
 
 > export ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/youngwookim.com/orderers/orderer2.youngwookim.com/msp/tlscacerts/tlsca.youngwookim.com-cert.pem
