@@ -12,11 +12,26 @@ OJT - SmartM2M
 
 > cd youngwookim
 
-> ./ojt.sh cryptogen
-
-> ./ojt.sh configtxgen
+> ./ojt.sh restart
 
 > docker-compose up -d
 
+___
 
+> export ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/youngwookim.com/orderers/orderer2.youngwookim.com/msp/tlscacerts/tlsca.youngwookim.com-cert.pem
 
+> peer channel create -o orderer2.youngwookim.com:7050 -c rc -f ./channel-artifacts/researchchannel.tx --tls --cafile $ORDERER_CA
+
+> peer channel create -o orderer2.youngwookim.com:7050 -c pc -f ./channel-artifacts/productionchannel.tx --tls --cafile $ORDERER_CA
+
+> peer channel join -b rc.block --tls --cafile $ORDERER_CA
+
+> peer channel join -b pc.block --tls --cafile $ORDERER_CA
+
+> peer chaincode install -n mycc -v 1.0 -p github.com/chaincode/chaincode_example02/go/
+
+> peer chaincode instantiate -o orderer2.youngwookim.com:7050 --tls --cafile $ORDERER_CA -C rc -n mycc -v 1.0 -c '{"Args":["init","a", "100", "b","200"]}'
+
+> peer chaincode instantiate -o orderer2.youngwookim.com:7050 --tls --cafile $ORDERER_CA -C pc -n mycc -v 1.0 -c '{"Args":["init","a", "100", "b","200"]}' 
+
+...
